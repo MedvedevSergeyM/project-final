@@ -3,6 +3,7 @@ package com.javarush.jira.bugtracking.attachment;
 import com.javarush.jira.common.error.IllegalRequestDataException;
 import com.javarush.jira.common.error.NotFoundException;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 @UtilityClass
 public class FileUtil {
@@ -25,14 +27,14 @@ public class FileUtil {
             throw new IllegalRequestDataException("Select a file to upload.");
         }
 
-        File dir = new File(directoryPath);
-        if (dir.exists() || dir.mkdirs()) {
-            File file = new File(directoryPath + fileName);
-            try (OutputStream outStream = new FileOutputStream(file)) {
-                outStream.write(multipartFile.getBytes());
-            } catch (IOException ex) {
-                throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
+        try {
+            Path dir = Paths.get(directoryPath);
+            if (!Files.exists(dir)) {
+                Files.createDirectories(dir);
             }
+            Files.copy(multipartFile.getInputStream(), Paths.get(directoryPath, fileName));
+        } catch (IOException ex) {
+            throw new IllegalRequestDataException("Failed to upload file " + multipartFile.getOriginalFilename());
         }
     }
 
