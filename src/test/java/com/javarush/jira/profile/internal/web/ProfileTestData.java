@@ -1,6 +1,8 @@
 package com.javarush.jira.profile.internal.web;
 
 import com.javarush.jira.MatcherFactory;
+import com.javarush.jira.login.Role;
+import com.javarush.jira.login.User;
 import com.javarush.jira.profile.ContactTo;
 import com.javarush.jira.profile.ProfileTo;
 import com.javarush.jira.profile.internal.model.Contact;

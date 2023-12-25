@@ -6,3 +6,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/jira-test
     username: jira
     password: JiraRush
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jira4jr@gmail.com
+    password: zdfzsrqvgimldzyj
+
